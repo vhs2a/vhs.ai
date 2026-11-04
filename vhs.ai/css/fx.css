@@ -1,0 +1,16 @@
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+#vhs{position:fixed;left:0;top:0;z-index:60;width:110px;height:125px;pointer-events:none;display:none;transition:left .7s cubic-bezier(.5,0,.2,1),top .7s cubic-bezier(.5,0,.2,1)}
+#vhs svg{pointer-events:none;filter:drop-shadow(0 8px 12px #000a);animation:bob 2.6s ease-in-out infinite;overflow:visible}
+@keyframes bob{50%{translate:0 -5px}}
+#vhs .ey{transform-box:fill-box;transform-origin:center;animation:blink 4.5s infinite}@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+#vhs .arm{transform-box:fill-box;transform-origin:85% 90%}#vhs.talk .arm{animation:wave .55s ease-in-out infinite alternate}@keyframes wave{to{transform:rotate(-28deg)}}
+#vhs[data-m=happy] .bd{animation:jump .5s}@keyframes jump{40%{transform:translateY(-20px)}}
+#sb{display:none;position:absolute;bottom:100%;right:0;width:250px;background:var(--c);border:1px solid var(--a);border-radius:14px;padding:10px 12px;font-size:13px;pointer-events:auto;box-shadow:0 8px 30px #000b,0 0 18px #d4560c33}
+#vhs.dn #sb{bottom:auto;top:100%}#vhs.lf #sb{right:auto;left:0}
+#sb p{margin:0 0 8px}#sb div{display:flex;gap:6px;justify-content:flex-end}#sb button{background:var(--c2);padding:4px 12px;font-size:12px}#sb button:last-child{background:var(--a)}
+.spot{outline:2px solid var(--a)!important;box-shadow:0 0 0 6px #d4560c40,0 0 26px #d4560c99!important;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 10px #d4560c22,0 0 34px #d4560caa}}
+.logo span:hover{text-shadow:2px 0 #ff3d00,-2px 0 #ffb14a;animation:glitch .3s steps(2) 2}@keyframes glitch{50%{transform:translateX(2px) skewX(-6deg)}}
+dialog select{width:100%;background:var(--bg);color:var(--t);border:1px solid var(--ln);border-radius:12px;padding:9px 12px;font:inherit}
+dialog details{margin-top:14px;border-top:1px solid var(--ln);padding-top:10px}dialog summary{cursor:pointer;color:var(--m);padding:4px 0}dialog details[open] summary{color:var(--t)}
+@media(prefers-reduced-motion:reduce){#vhs svg,#vhs .ey,#vhs .bd,#vhs .arm,.spot{animation:none}#vhs{transition:none}}
