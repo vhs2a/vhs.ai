@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>vhs.ai</title>
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/fx.css"><link rel="stylesheet" href="css/account.css"><link rel="stylesheet" href="css/features.css"></head><body>
+<aside id="side">
+ <div class="logo"><span>(vhs.ai)</span><button id="col" title="Hide sidebar">«</button></div>
+ <button class="pill" id="nc">＋ Create</button>
+ <button class="nv" id="home">Characters</button><button class="nv" id="pn">Personas</button><button class="nv" id="ic">Import characters</button><button class="nv" id="il">Import from c.ai link</button><button class="nv" id="st">Settings</button>
+ <input id="q" placeholder="Search"><div id="list"></div><button class="nv" id="ac">Sign in</button>
+</aside>
+<main>
+ <div id="top"><button id="tg" title="Show sidebar" aria-label="Show sidebar">☰</button><button id="ro" title="Chat options" aria-label="Chat options">⋯</button></div>
+ <div id="log" role="log" aria-live="polite"></div><div id="err"></div>
+ <footer><div id="cb"><textarea id="in" rows="1"></textarea><button id="mic" title="Speak" aria-label="Voice input">🎤</button><button id="send" aria-label="Send">↑</button></div><small>This is an AI, not a real person. Treat everything it says as fiction.</small></footer>
+</main>
+<aside id="rp"></aside>
+<input type="file" id="fc" accept=".json,.png,.jsonl,.txt" multiple hidden>
+<input type="file" id="fh" accept=".json,.jsonl,.txt" hidden>
+<input type="file" id="fr" accept=".json" hidden>
+<dialog id="ds"><form method="dialog">
+ <div class="tabs2"><button type="button" data-sec="g" class="on">General</button><button type="button" data-sec="a">AI</button><button type="button" data-sec="p">Appearance</button><button type="button" data-sec="v">Privacy</button><button type="button" data-sec="x">Advanced</button></div>
+ <section data-sec="g"><label>Read replies aloud</label><select data-s="tts"><option value="off">Off</option><option value="on">On</option></select>
+  <label>Voice</label><select data-s="voice" id="vs"></select>
+  <div class="row"><button type="button" id="op">Manage personas</button><button type="button" id="rt">Tutorial</button></div>
+  <p class="mu">Shortcuts: Ctrl+K search · Alt+N new chat · Alt+R regenerate · Alt+S settings · Ctrl+Z undo · Esc stop</p></section>
+ <section data-sec="a" hidden><label>Venice API key</label><input data-s="key" type="password" autocomplete="off" placeholder="Stays in this browser, sent only to api.venice.ai">
+  <label>Model</label><div style="display:flex;gap:6px"><input data-s="model" list="ml"><button type="button" id="lm">Load list</button></div><datalist id="ml"></datalist>
+  <label>Temperature</label><input data-s="temp" type="number" step="0.05" min="0" max="2"><label>Max reply tokens</label><input data-s="max" type="number" step="64" min="64">
+  <label>Context budget (tokens of history sent)</label><input data-s="ctx" type="number" step="500" min="1000"><label>Global instructions</label><textarea data-s="sys" rows="3"></textarea></section>
+ <section data-sec="p" hidden><label>Theme</label><select data-s="th"><option value="ember">Ember</option><option value="crimson">Crimson</option><option value="violet">Violet</option><option value="forest">Forest</option><option value="ocean">Ocean</option></select>
+  <label>Accent color (overrides the theme)</label><input data-s="acc" type="color"><label>Particles</label><select data-s="fx"><option value="on">On</option><option value="off">Off</option></select></section>
+ <section data-sec="v" hidden><label>c.ai token (optional, only if a link is refused)</label><input data-s="cai" type="password" autocomplete="off"><p class="mu">API keys and tokens never leave this browser, even with an account.</p></section>
+ <section data-sec="x" hidden><div class="row"><button type="button" id="ba">Back up everything</button><button type="button" id="br">Restore backup</button></div></section>
+ <div class="row"><span class="sp"></span><button>Close</button></div>
+</form></dialog>
+<dialog id="de"><form method="dialog">
+ <label>Name</label><input id="e-name"><label>Tagline</label><input id="e-title">
+ <label>Avatar</label><input id="e-av" type="file" accept="image/*">
+ <label>Description / personality / scenario</label><textarea id="e-desc" rows="6"></textarea>
+ <label>First message</label><textarea id="e-greet" rows="3"></textarea>
+ <label>Example dialogue (optional)</label><textarea id="e-ex" rows="3"></textarea>
+ <label>Lorebook: one entry per line, <i>keyword, keyword = fact</i></label><textarea id="e-lore" rows="3" placeholder="station square, city = The city is Station Square."></textarea>
+ <label>Your rating</label><select id="e-rate"><option value="0">Not rated</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><label>Your review</label><textarea id="e-rev" rows="2"></textarea>
+ <div class="row"><button id="e-save" value="ok">Save character</button><button type="button" id="e-exp">Export .json</button><button type="button" id="e-del">Delete</button><button>Cancel</button></div>
+</form></dialog>
+<input type="file" id="fp" accept=".json" hidden>
+<dialog id="dp"><form method="dialog">
+ <b>Personas</b><p style="color:var(--m);margin:4px 0 10px">A persona is who you play in chats. Its name replaces {{user}}.</p>
+ <div id="pl"></div>
+ <label>Name</label><input id="p-name"><label>Description</label><textarea id="p-desc" rows="4" placeholder="Age, looks, personality: anything the character should know about you"></textarea>
+ <div class="row"><button type="button" id="p-save">Save persona</button><button type="button" id="p-new">New</button><span class="sp"></span><button type="button" id="p-imp">Import .json</button><button type="button" id="p-exp">Export all</button><button>Close</button></div>
+</form></dialog>
+<dialog id="dl"><b>Import from a c.ai link</b>
+ <p class="mu">Paste a character link such as character.ai/chat/… or just its ID.</p><input id="l-url" placeholder="https://character.ai/chat/…"><p id="l-st" class="mu"></p>
+ <div class="row"><button id="l-go">Import</button><span class="sp"></span><button id="l-x">Close</button></div></dialog>
+<dialog id="da"><b>Account</b><div id="da-b"></div><div class="row"><span class="sp"></span><button id="da-x">Close</button></div></dialog>
+<script src="js/app.js"></script><script src="config.js"></script><script src="js/account.js"></script><script src="js/features.js"></script><script src="js/fx.js"></script><script src="js/mascot.js"></script></body></html>
